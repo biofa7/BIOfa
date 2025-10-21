@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioFA | متجر المنتجات الطبيعية المغربية</title>
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* إعدادات Tailwind للغة العربية والخط */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #fcfcfc;
+        }
+        .rtl { direction: rtl; }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .whatsapp-fab {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 50;
+        }
+        /* Hero Slider Custom Styles */
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            height: 60vh; /* ارتفاع متوسط للديسكتوب */
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Dropdown Menu styling */
+        .dropdown-menu {
+            opacity: 0;
+            transform: translateY(10px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 640px) {
+            .slider-container {
+                height: 40vh;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#059669', /* أخضر طبيعي داكن */
+                        'secondary-gold': '#f59e0b', /* ذهبي فاتح */
+                        'tertiary-brown': '#92400e', /* بني طبيعي */
+                        'natural-bg': '#fefcf8', /* خلفية بيضاء مائلة للكريمي */
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="rtl">
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/212711298098?text=مرحباً، أود الاستفسار عن منتجات BioFA" target="_blank" class="whatsapp-fab bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl hover:bg-green-600 transition duration-300">
+        <!-- أيقونة واتساب SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zM9.06 8.733c-.193 0-.38-.004-.555-.008-.184-.003-.38-.005-.51-.005-.21 0-.41.021-.59.099-.21.09-.4.24-.52.44-.14.23-.23.49-.23.78 0 .4.13.78.38 1.13.16.22.35.46.57.7.24.27.5.56.78.87.32.34.66.71.99 1.1.45.52.88.98 1.29 1.38.52.49 1.01.9 1.45 1.22.47.33.9.59 1.29.79.42.21.82.32 1.2.32.21 0 .42-.03.63-.1.2-.08.38-.19.51-.33.15-.15.25-.35.25-.58 0-.22-.05-.43-.16-.63s-.25-.37-.42-.52c-.17-.15-.36-.28-.56-.41-.22-.13-.45-.25-.69-.35-.23-.1-.48-.15-.73-.15-.13 0-.25.01-.38.03-.12.02-.24.05-.36.08-.19.06-.36.13-.52.21-.13.06-.24.13-.33.22-.1.09-.18.18-.24.29-.06.1-.11.2-.15.28-.04.09-.07.16-.1.21-.02.05-.04.09-.05.11-.01.02-.02.03-.02.03s-.01 0-.01.01c-.01 0-.02-.01-.03-.02-.01-.01-.03-.03-.04-.04-.02-.02-.04-.04-.06-.07-.26-.33-.48-.68-.66-1.03-.19-.34-.33-.69-.43-1.04s-.14-.68-.14-1.01c0-.13.01-.26.04-.38.03-.12.07-.23.13-.33.06-.1.13-.19.22-.26.09-.07.19-.13.3-.17.11-.04.23-.07.35-.09.12-.02.25-.03.38-.03h.01c.03 0 .07 0 .1 0s.06 0 .09-.01c.03 0 .06-.01.09-.01.03 0 .06-.01.08-.01.03 0 .05 0 .07 0h.01c.03 0 .06 0 .08 0 .03 0 .05 0 .07 0h.01c.02 0 .04 0 .05 0l.03.01.03.01.03.01c.06.01.12.02.18.04.06.02.12.04.17.07.05.03.1.06.14.1.04.04.08.08.11.12s.06.09.08.14c.02.05.04.1.05.15s.02.1.02.15c0 .03 0 .06-.01.09s-.01.06-.02.08-.02.05-.03.07-.02.04-.04.06-.02.03-.03.04-.02.02-.03.03c0 .01-.01.01-.01.02s-.01.01-.01.01l-.01.01c-.02.02-.04.03-.06.05-.02.02-.05.03-.07.05-.03.02-.05.03-.08.04-.03.01-.06.02-.09.03-.03.01-.07.01-.1.01-.04 0-.08.01-.12.01-.25 0-.5-.05-.75-.15-.25-.1-.48-.23-.69-.38-.21-.15-.4-.32-.57-.5-.17-.18-.32-.38-.45-.59-.13-.21-.23-.43-.31-.66-.08-.23-.12-.46-.12-.7 0-.31.09-.59.27-.82.18-.23.42-.4.72-.5.1-.03.2-.05.3-.06.1-.01.2-.01.3-.01z"/></svg>
+    </a>
+    
+    <!-- Header -->
+    <header class="sticky top-0 bg-white shadow-lg z-40">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-4xl font-black tracking-tighter" style="font-family: 'Cairo', sans-serif;">
+                        <span class="text-primary-green">BIO</span>
+                        <span class="text-tertiary-brown">FA</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex lg:space-x-8 lg:text-lg items-center">
+                    <a href="#hero" class="text-gray-700 hover:text-primary-green font-semibold transition py-2 px-3 rounded-md">الرئيسية</a>
+                    <div class="relative dropdown group">
+                        <button class="flex items-center text-gray-700 hover:text-primary-green font-semibold transition py-2 px-3 rounded-md focus:outline-none" aria-expanded="false" aria-controls="categories-menu">
+                            الأقسام
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 rtl:ml-1 rtl:mr-0 transform group-hover:rotate-180 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div id="categories-menu" class="dropdown-menu absolute right-0 w-56 mt-2 bg-white rounded-lg shadow-xl z-30 border border-gray-100 origin-top-right">
+                            <a href="#honey-section" onclick="scrollToCategory('honey')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition rounded-t-lg">العسل الطبيعي</a>
+                            <a href="#herbs-section" onclick="scrollToCategory('herbs')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">الأعشاب والنباتات</a>
+                            <a href="#spices-section" onclick="scrollToCategory('spices')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">التوابل والبهارات</a>
+                            <a href="#oils_nuts-section" onclick="scrollToCategory('oils_nuts')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">الزيوت والمكسرات</a>
+                            <a href="#legumes-section" onclick="scrollToCategory('legumes')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">البقوليات</a>
+                            <a href="#food-section" onclick="scrollToCategory('food')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">مواد غذائية</a>
+                            <a href="#beauty-section" onclick="scrollToCategory('beauty')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">العناية والتجميل</a>
+                            <a href="#traditional-section" onclick="scrollToCategory('traditional')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">مواد تقليدية</a>
+                            <a href="#special-section" onclick="scrollToCategory('special')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition rounded-b-lg">منتجات خاصة</a>
+                        </div>
+                    </div>
+                    <a href="#reviews" class="text-gray-700 hover:text-primary-green font-semibold transition py-2 px-3 rounded-md">آراء الزبائن</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary-green font-semibold transition py-2 px-3 rounded-md">اتصل بنا</a>
+                </nav>
+
+                <!-- Icons & Mobile Menu Button -->
+                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="البحث عن منتج..." onkeyup="filterProducts(this.value)" class="w-48 hidden sm:block px-4 py-2 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary-green">
+                        <button class="p-2 rounded-full hover:bg-gray-100 transition focus:outline-none sm:hidden" aria-label="بحث">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <button onclick="showCartModal()" class="relative p-2 rounded-full hover:bg-gray-100 transition focus:outline-none" aria-label="عربة التسوق">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">0</span>
+                    </button>
+                    <button id="mobile-menu-button" class="lg:hidden p-2 rounded-full hover:bg-gray-100 transition" aria-label="قائمة التنقل">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-300 ease-in-out lg:hidden">
+        <div class="flex justify-between items-center p-5 border-b">
+             <span class="text-3xl font-black tracking-tighter">
+                <span class="text-primary-green">BIO</span><span class="text-tertiary-brown">FA</span>
+            </span>
+            <button id="close-menu-button" class="p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <nav class="flex flex-col items-center justify-center h-full space-y-6 text-xl font-semibold -mt-20">
+            <a href="#hero" class="mobile-menu-link text-gray-700 hover:text-primary-green">الرئيسية</a>
+            
+            <!-- Categories Dropdown for Mobile -->
+            <div class="w-full text-center">
+                <button id="mobile-categories-button" class="inline-flex items-center justify-center w-full text-xl font-semibold text-gray-700 hover:text-primary-green">
+                    الأقسام
+                    <svg id="mobile-categories-arrow" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <div id="mobile-categories-menu" class="hidden mt-4 space-y-5 text-lg font-medium text-gray-500">
+                    <a href="#honey-section"    class="mobile-menu-link block">العسل الطبيعي</a>
+                    <a href="#herbs-section"    class="mobile-menu-link block">الأعشاب والنباتات</a>
+                    <a href="#spices-section"   class="mobile-menu-link block">التوابل والبهارات</a>
+                    <a href="#oils_nuts-section" class="mobile-menu-link block">الزيوت والمكسرات</a>
+                    <a href="#legumes-section" class="mobile-menu-link block">البقوليات</a>
+                    <a href="#food-section" class="mobile-menu-link block">مواد غذائية</a>
+                    <a href="#beauty-section" class="mobile-menu-link block">العناية والتجميل</a>
+                    <a href="#traditional-section" class="mobile-menu-link block">مواد تقليدية</a>
+                    <a href="#special-section"  class="mobile-menu-link block">منتجات خاصة</a>
+                </div>
+            </div>
+
+            <a href="#reviews" class="mobile-menu-link text-gray-700 hover:text-primary-green">آراء الزبائن</a>
+            <a href="#contact" class="mobile-menu-link text-gray-700 hover:text-primary-green">اتصل بنا</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section - Full Width Slider -->
+    <section id="hero" class="slider-container shadow-xl">
+        <button onclick="changeSlide(-1)" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/50 p-3 rounded-full shadow-lg hover:bg-white transition z-20 text-gray-800 focus:outline-none backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <button onclick="changeSlide(1)" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/50 p-3 rounded-full shadow-lg hover:bg-white transition z-20 text-gray-800 focus:outline-none backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div id="slides-container" class="w-full h-full"></div>
+    </section>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+
+        <!-- Featured Products Section -->
+        <section id="featured" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-primary-green pb-2 inline-block">منتجاتنا الأكثر مبيعًا</h2>
+            <div id="best-sellers" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                <!-- Product Cards will be inserted here by JS -->
+            </div>
+        </section>
+
+        <!-- All Product Categories Section -->
+        <section id="categories" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-10 border-b-2 border-tertiary-brown pb-2 inline-block">اكتشف الأقسام الرئيسية</h2>
+            
+            <div id="search-results-message" class="text-lg font-semibold text-center text-red-500 mb-4 hidden">
+                لا توجد نتائج مطابقة لـ: <span id="search-term-display"></span>
+            </div>
+
+            <!-- Individual Category Sections -->
+            <div id="honey-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">العسل الطبيعي</h3>
+                <div id="honey-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="herbs-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">الأعشاب والنباتات</h3>
+                <div id="herbs-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="spices-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">التوابل والبهارات</h3>
+                <div id="spices-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="oils_nuts-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">الزيوت والمكسرات</h3>
+                <div id="oils_nuts-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+            
+            <div id="legumes-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">البقوليات</h3>
+                <div id="legumes-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="food-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">مواد غذائية</h3>
+                <div id="food-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="beauty-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">العناية والتجميل</h3>
+                <div id="beauty-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="traditional-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">مواد تقليدية</h3>
+                <div id="traditional-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="special-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">منتجات خاصة</h3>
+                <div id="special-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section id="reviews" class="bg-natural-bg p-8 rounded-xl shadow-lg mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">ماذا يقول زبائننا؟</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-primary-green">
+                    <p class="text-secondary-gold text-2xl mb-3">★★★★★</p>
+                    <p class="text-gray-700 italic mb-4">"أفضل زيت أركان جربته على الإطلاق. الجودة لا تُضاهى والتوصيل كان سريعاً. أنصح به بشدة!"</p>
+                    <p class="font-semibold text-gray-800">- فاطمة الزهراء، الدار البيضاء</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-primary-green">
+                    <p class="text-secondary-gold text-2xl mb-3">★★★★★</p>
+                    <p class="text-gray-700 italic mb-4">"عسل الزعتر الطبيعي فاخر جداً. طعم أصيل وجودة عالية، فرق واضح عن المنتجات الأخرى في السوق."</p>
+                    <p class="font-semibold text-gray-800">- محمد، الرباط</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-primary-green">
+                    <p class="text-secondary-gold text-2xl mb-3">★★★★★</p>
+                    <p class="text-gray-700 italic mb-4">"منتجات التوابل رائعة، خصوصاً الكمون والبابريكا. أسعار مناسبة مقابل هذه الجودة الممتازة."</p>
+                    <p class="font-semibold text-gray-800">- أمينة، مراكش</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Banner -->
+        <div class="bg-primary-green rounded-xl shadow-xl p-8 text-center mb-16">
+            <h3 class="text-3xl font-bold text-white mb-2">الجودة الطبيعية بين يديك</h3>
+            <p class="text-green-100 mb-6">اكتشف الفرق مع BioFA ومنتجاتنا المغربية الأصيلة.</p>
+            <a href="#categories" class="inline-block bg-white text-primary-green font-bold py-3 px-8 rounded-full shadow-md hover:bg-gray-100 transition duration-300">تسوق الآن</a>
+        </div>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-primary-green pb-2 inline-block">تواصل معنا</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 font-semibold mb-2">الاسم</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green">
+                        </div>
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-semibold mb-2">الرسالة</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300">إرسال الرسالة</button>
+                    </form>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="p-6 bg-green-50 rounded-xl shadow-inner">
+                        <h4 class="text-xl font-bold text-primary-green mb-3">معلومات الاتصال المباشر</h4>
+                        <p class="flex items-center space-x-2 rtl:space-x-reverse text-gray-700 mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-secondary-gold" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>
+                            <span>واتساب/هاتف: 0711298098</span>
+                        </p>
+                         <p class="flex items-center space-x-2 rtl:space-x-reverse text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-secondary-gold" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                            <span>البريد: windaws654321@gmail.com</span>
+                        </p>
+                    </div>
+                    <div class="p-6 bg-green-50 rounded-xl shadow-inner">
+                         <h4 class="text-xl font-bold text-primary-green mb-3">تواصل اجتماعي</h4>
+                         <div class="flex space-x-6 rtl:space-x-reverse">
+                             <a href="https://www.facebook.com/" target="_blank" class="text-gray-600 hover:text-blue-600 transition" aria-label="فيسبوك">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 5.099 3.729 9.388 8.601 10.158V15.5H7.5V12h3.101v-2.333c0-3.085 1.815-4.778 4.544-4.778.868 0 1.614.064 1.83.093v2.809l-1.656.001c-1.42 0-1.693.676-1.693 1.66v2.128h3.333l-.534 3.5h-2.799v6.658C18.271 21.388 22 17.099 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                             </a>
+                             <a href="https://www.instagram.com/son7abf" target="_blank" class="text-gray-600 hover:text-pink-600 transition" aria-label="انستغرام son7abf">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.254.148 4.77 1.688 4.981 4.92.058 1.267.07 1.647.07 4.85s-.012 3.584-.07 4.85c-.211 3.232-1.727 4.772-4.98 4.92-.158.058-.29.07-.48.07h-.058c-1.267 0-1.647-.012-4.85-.07-3.254-.148-4.77-1.688-4.981-4.92-.058-1.267-.07-1.647-.07-4.85s.012-3.584.07-4.85c.211-3.232 1.727-4.772 4.98-4.92.158-.058.29-.07.48-.07h.058zm0 2.132c-3.111 0-3.486.014-4.717.071-2.433.11-3.66 1.393-3.77 3.66-.057 1.23-.07 1.605-.07 4.717s.013 3.486.07 4.717c.11 2.268 1.337 3.55 3.77 3.66.152.007.29.01.48.01h.058c1.23 0 1.605-.013 4.717-.07 2.433-.11 3.66-1.393 3.77-3.66.057-1.23.07-1.605.07-4.717s-.013-3.486-.07-4.717c-.11-2.268-1.337-3.55-3.77-3.66-.19-.007-.328-.01-.48-.01h-.058zm0 3.25c-3.298 0-5.973 2.675-5.973 5.973s2.675 5.973 5.973 5.973 5.973-2.675 5.973-5.973-2.675-5.973-5.973-5.973zm0 9.81c-2.115 0-3.837-1.722-3.837-3.837s1.722-3.837 3.837-3.837 3.837 1.722 3.837 3.837-1.722 3.837-3.837 3.837zm6.471-12.663c-.815 0-1.478.663-1.478 1.478s.663 1.478 1.478 1.478 1.478-.663 1.478-1.478-.663-1.478-1.478-1.478z"/></svg>
+                             </a>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+            <div class="flex justify-center mb-4">
+                 <a href="#" class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-3xl font-black tracking-tighter" style="font-family: 'Cairo', sans-serif;">
+                        <span class="text-primary-green">BIO</span>
+                        <span class="text-tertiary-brown">FA</span>
+                    </span>
+                 </a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2024 BioFA. جميع الحقوق محفوظة. تصميم بأيدي مغربية.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50 transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col transform transition-transform duration-300 scale-95">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 id="cart-modal-title" class="text-2xl font-bold text-gray-800">سلة التسوق</h3>
+                <button onclick="hideCartModal()" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            
+            <div id="cart-step-1">
+                <div id="cart-items" class="p-6 flex-grow overflow-y-auto space-y-4" style="max-height: 50vh;"></div>
+                <div id="cart-footer-step1" class="p-6 border-t bg-gray-50 rounded-b-xl"></div>
+            </div>
+
+            <div id="cart-step-2" class="hidden">
+                 <div class="p-6 flex-grow overflow-y-auto" style="max-height: 50vh;">
+                    <h4 class="text-xl font-bold text-gray-800 mb-4">المرجو ملء معلوماتك لإتمام الطلب</h4>
+                    <form id="customer-info-form" class="space-y-4">
+                        <div>
+                            <label for="customer-name" class="block text-sm font-semibold text-gray-700 mb-1">الاسم الكامل</label>
+                            <input type="text" id="customer-name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="مثال: محمد العلوي">
+                        </div>
+                        <div>
+                            <label for="customer-phone" class="block text-sm font-semibold text-gray-700 mb-1">رقم الهاتف</label>
+                            <input type="tel" id="customer-phone" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="مثال: 0612345678">
+                        </div>
+                         <div>
+                            <label for="customer-city" class="block text-sm font-semibold text-gray-700 mb-1">المدينة</label>
+                            <input type="text" id="customer-city" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="مثال: الدار البيضاء">
+                        </div>
+                        <div>
+                            <label for="customer-address" class="block text-sm font-semibold text-gray-700 mb-1">العنوان الكامل (الحي، الشارع، رقم المنزل...)</label>
+                            <textarea id="customer-address" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="مثال: حي السلام، شارع الحرية، عمارة 5، الطابق 3، شقة 10"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div id="cart-footer-step2" class="p-6 border-t bg-gray-50 rounded-b-xl grid grid-cols-2 gap-4">
+                     <button onclick="showCartStep(1)" class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-300">
+                        الرجوع للسلة
+                    </button>
+                    <button onclick="sendOrderViaWhatsApp()" class="w-full bg-green-700 text-white py-3 rounded-lg font-semibold hover:bg-green-800 transition duration-300 flex items-center justify-center space-x-2 rtl:space-x-reverse shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg>
+                        <span>تأكيد الطلب</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-primary-green text-white py-3 px-6 rounded-lg shadow-xl transform translate-y-20 opacity-0 transition duration-500 z-50">
+        تمت إضافة المنتج للسلة بنجاح!
+    </div>
+
+
+    <script>
+        // ========================
+        // GLOBAL DATA & CONFIG
+        // ========================
+        const WHATSAPP_NUMBER = '212711298098';
+        const ALL_PRODUCTS = [
+            // Existing Products
+            { id: 1, name: "عسل الزعتر", price: 350.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMpf1_2X-z5A2iihDabnklTufz2rvMme6cgtRoPzOhecrOs2MGDgWkKqVnpVqs7naptnguNh9ePwoyN3fRyholP-oCaGyNLqm9dupyrtw8PFTOvQ-ZPW5U63QLGOVnduLT2TQo_zHTJgYcemCZ1HwWYga30JDljxl8KyF3bqhmOOJDXuNtUMg0W35VZZs/s320/%D8%B9%D8%B3%D9%84-%D8%A7%D9%8LD%D8%B2%D8%B9%D8%AA%D8%B1-500g-scaled-e1661937824120-441x441-removebg-preview.png", category: "honey", isFeatured: true, isNew: false, keywords: "عسل زعتر جبلي نقي علاجية" },
+            { id: 2, name: "عسل الدغموس", price: 320.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUJIAR8rz33JO0j74KSYUkT_7pwS2b5wdHgLX97hG6vXLHl0ELkLgNGA1yh0cSyBCyfP9icD1X0od33_PykTvT_3IwH7TiV0KjhatZMkq6f1n-hTXzicNr9oG185z9T1Bwjwvq36Y1yzqWyafSIIg6-b4M9-T_td_ewfX2x9V6IFcrGx2jiF3gU407clw/s1600/3-scaled-e1661900597117-300x300-removebg-preview.png", category: "honey", isFeatured: false, isNew: true, keywords: "عسل دغموس فريد صحي" },
+            { id: 3, name: "عسل الكالبتوس", price: 90.00, desc: "مذاق مميز ومفيد للجهاز التنفسي.", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh48EN3j-gBDaYlEwL9Ckr3zrcWh5LW4XNoqrHQegtEK3QsRhV1dSAJ1wjjdgkG4HukA-IBdypD2WYQv3gLTSuoKOd3cme0dE5yumYoWf-am3altloQUvjIIE8jGNGV7wS0P05H0_xzjgYcMmnW-qPD4GC6F88cNixrU_QZDZ2OroFs-sEgoIX6iEEu-0M/s320/download_image_1710629923150.png", category: "honey", isFeatured: true, isNew: false, keywords: "عسل أوكالبتوس تنفسي مذاق" },
+            { id: 4, name: "عسل الخروب", price: 100.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhH2hLxo3zwZeoT6OEznkcm_y2Xr8IfmSkTYz65z64-LBh7tuHEROaYFlwlgqjrfM1M0A8Ixugk-bM0iV7AZi8wTojb0Fkq8HUBGrfo0nj7C6UrkpGUAEVXDT5gT1H31AWggrlVbuner_3RTW17i0F5dHptmcnWNtz6Tj4KtoG9M18cqf13AsN7gFSZlOw/s320/download_image_1710247733237.png", category: "honey", isFeatured: false, isNew: false, keywords: "عسل خروب معادن أكسدة" },
+            { id: 4, name: "عسل الليمون", price: 70.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjDS004Dr9Bo_W4dElqWmoPZIr2NlQC8vLu_EYUtupf6tDj5jV3j_fVDN5nPETpCo9f0JhTfJKNv4RNtumDS1dmUgFXlcjTZK_jRkOT6AAC16OlexnJi6vIwH3XS6IexT0O9KKXejbXbzyRgHzyaeYRWgm2pg2BI3yoJA2OxT1WQehByUfh2KOxu8umkkc/s320/download_image_1710265163023.png", category: "honey", isFeatured: false, isNew: false, keywords: "عسل خروب معادن أكسدة" },
+            { id: 5, name: "الزعتر المغربي", price: 26.00, desc: "100 جرام", image: "https://i.pinimg.com/736x/2a/1e/b1/2a1eb1fe608772865428c488d7fd0a6a.jpg", category: "herbs", isFeatured: true, isNew: false, keywords: "زعتر مجفف جبلي أصيل طهي شاي" },
+            { id: 6, name: "الشيبة ", price: 2.00, desc: "50 جرام", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjv9XqvNeEg_qsBA1kVtSzyjFMzW7UPouY0KnrM4wUwuJXRBzIeqMu7BdOJOyiVNnVTYc3WQgY5O8zKu4-DADioPazId9TvR2ontHHG8jrmsaTaDB2rkuOkktpJCjOhXe_vsLU6JLuMxFYP-4wp9iYyvD7EQMs433cnjjwqtpgHNMCA5M0dJ9wgKvTLLh8/s320/chiba-alshybt.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "شيبة عشبة مغربية شاي فاخر" },
+            { id: 7, name: "النعناع الطبيعي", price: 1.50, desc: "1 باقة", image: "https://i.pinimg.com/736x/68/63/52/686352abe2fd9a1d031acd8744b5af24.jpg", category: "herbs", isFeatured: false, isNew: false, keywords: "نعناع طبيعي عطرية شاي" },
+            { id: 8, name: "القزبر الجاف", price: 5.00, desc: "100 جرام", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgspnIkmD1hJr6XakunIdhUk7_1F6i6xUbwX1C1WHurRVt59kxYskZCEzIdwXlu2zsQh3l4UdgndyhxrYZ_tyCBatSkvvA90wBVD8kVJ_cnaMryc0STI87vP8ZC3-aWJH9iHDuC0EFYHhZDklLuLcv7hjUKaGpUMXMJF9TSjD3txLs9c-6IfVm6ueL2PjE/s320/%D8%A7%D9%84%D9%83%D8%B2%D8%A8%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AC%D8%A7%D9%81%D8%A9.jpg", category: "herbs", isFeatured: false, isNew: false, keywords: "كزبرة جافة بذور توابل" },
+            { id: 9, name: "زيت الأركان", price: 100.00, desc: "100 مل", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5-IzdbcdOAvm_8i0FOvTH0Nt4lJqrWNui9MiDogXZ6y3PQgi2uCbDI5CvJlFYAfm2vJIJvIPLHj1bfeB7AojgkSTx7n2LJcPsPEelEro01WwDtBLZ4jQZ2h-V8hWTQq0Gu5ffs2mXtH7lqLzuk2WRilrBvLCQ9YjJDXtuRbBjYIZVJ5j4XW3W3uNp6fk/s320/ifTh1f1dQtijS9Opd_5kwA.jfif", category: "oils_nuts", isFeatured: true, isNew: false, keywords: "زيت أركان nقي بكر ممتاز أكل" },
+            { id: 10, name: "اللوز", price: 120.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEghFXXfGOXLWoMcZt_TY-VXol8Xz8RnpTdkKwR11DoNwB3Cek5zZAzwOf_mOrvuLtJ_L_JdyjOEauM0YZw7qOzWL19tNqcswC8_iIxKVsWcRWMGogPSGTEs8hOmJs6iHZ6AUe3BLKNi3YZa3ALquuQBs8WP-6MY4b-3GJ-6nDxHpPcg3XJA6oPFr4uAGII/s320/almond-2.jpg", category: "oils_nuts", isFeatured: true, isNew: false, keywords: "لوز حلو مكسرات أكل" },
+            { id: 11, name: "الجوز", price: 150.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6A0J6xxqnPmecyLCjxt7DcfNEzyc_cBnpn8LlV2MnKbTiR_neTd72KNXr_ASafvWB5q3UI6IdU3oAmx72Tf8rv_2gvj3uoTE7Qzx1XxksiFQxucsOQsLogLaxXGQzjY0g2OGKrRRWTXPLyTYvAw2Jm5X96vPJCtK0rz8FS42XE4JXwcEoVVZqK5jqztQ/s320/tbl_articles_article_25399_49984a0de78-391b-44f2-b953-5457cd821974.jpg", category: "oils_nuts", isFeatured: false, isNew: true, keywords: "جوز كركاع طبيعي مكسرات" },
+            { id: 14, name: "الكمون البلدي", price: 280.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_rNiXD3e9jgYXmX9KxzXSdOUiCR7fFLyK1woAd2sLT-pgjdbbOepkwTE4_xbRBLJZCXYeSaTLKkubDyYWljn9drJ3EdvSlrfK_cc4KAqVSoELtYESoU1rA6mKHhCficPbL3AGSUYVeeH9LU4GP-HTpS6uk-T3z0Q63Vd9M90Oz8UeBzymSAigD93pQrE/s320/%D9%A1-1-758x552.jpg", category: "spices", isFeatured: true, isNew: false, keywords: "كمون بلدي حبوب مطحون توابل" },
+            { id: 15, name: "الكركم المغربي", price: 180.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/a/AVvXsEh-W2kpevSm48kwMs1tN1UvYWUwNC6KjTim2PXEuE1fCnKONgwvNgcExTvvnxyCwdZR4e3cKQNhZV_-toFCtZf81rIF4VojX50cr2Iq5EZATJqaVzzMTIjc7Ao8uDRS_8mBUJALUxmryA4GK2nYafDcCTO9YXU_3OON3rrhVmRxCHXpUbdItnqGexuRH9k=w297-h237", category: "spices", isFeatured: false, isNew: true, keywords: "كركم خرقوم طبيعي مطحون" },
+            { id: 16, name: "القرفة المغربية", price: 350.00, desc: "1 كجم", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYh7oLAI6aJzuHJBY68gMqC48yx8csyX2D8hyYN8Sr5Q5ydVpQA5KFjQqgkRtZw4gNdA1ij-UqMKn98Qseq5OuqtewrtkHPokg3NYf1_o3uZK75nhmaBMqSCCjAb4UEUkL1XqfZ85aHN3VJTwV-QAHazygvoCrDatDFVR-DxrdZer1uxJPj20fmtT2Cms/w259-h214/%D8%A7%D9%84%D9%82%D8%B1%D9%81%D8%A9.jpg", category: "spices", isFeatured: false, isNew: false, keywords: "قرفة أعواد طبيعية توابل" },
+            { id: 17, name: "أملو باللوز", price: 228.50, desc: "1 كجم", image: "https://i.pinimg.com/1200x/5d/62/a2/5d62a2d56c44604a747efe5d36dd8a4e.jpg", category: "special", isFeatured: true, isNew: false, keywords: "أملو لوز أركان مغربي تقليدي" },
+            { id: 18, name: "الزعفران الحر", price: 35.00, desc: "1 غرام", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEix3gn7QXtA_C6hTpv-b0e0tj2qqgAwo7oZCkwv0RB_fWDCxBFJbaANxtrDZv0d-baJIIyTw_AtlFJXoZeNpC8sbIOwItxG3l2emXtKyw6Du0PGkL2OMLatLwEKyxpRcHZGLF1FL6ETOoJss8ewZkixYmNCu-jyWYOvLIpxFAJFsX3FHJm8hpEz3Dp8hyU/s320/download_image_1710452708644.png", category: "special", isFeatured: false, isNew: true, keywords: "زعفران حر مغربي خالص" },
+            { id: 19, name: "زيت الزيتون", price: 90.00, desc: "1 لتر", image: "https://i.pinimg.com/1200x/79/40/c2/7940c27797edde42f5b457da5f7a03eb.jpg", category: "oils_nuts", isFeatured: false, isNew: true, keywords: "زيت زيتون بكر ممتاز أكل" },
+            { id: 20, name: "تمر مغربي", price: 109.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/af/70/d8/af70d83e04945521269016f985a16b34.jpg", category: "special", isFeatured: false, isNew: true, keywords: "تمور مجهول مغربية حلوى" },
+            { id: 21, name: "الشاي الأخضر الشعرة", price: 76.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/f5/a6/62/f5a66201584413165cf806f1bb13455d.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "شاي أخضر شعرة أتاي مغربي" },
+            { id: 22, name: "الحمص ", price: 15.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/47/16/c7/4716c754d2f0993b3e3cd1018b061188.jpg", category: "legumes", isFeatured: false, isNew: true, keywords: "حمص بقوليات مجفف بلدي" },
+
+            // New batch of products
+            { id: 23, name: "اليازير (إكليل الجبل)", price: 90.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/de/c9/83/dec983119da0fca4df8b8d1f5b7e3444.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "يازير إكليل الجبل أعشاب" },
+            { id: 24, name: "السالمية", price: 80.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/1f/46/e7/1f46e7410fde64b5f557b9f709ef146e.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "سالمية أعشاب طبية" },
+            { id: 25, name: "الخزامى", price: 130.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/7d/1e/a8/7d1ea8ee541889d9f4f41b72611e4934.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "خزامى لافندر أعشاب" },
+            { id: 26, name: "السانوج (الحبة السوداء)", price: 120.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/43/1a/e3/431ae34a464ececa1ac1870549e85380.jpg", category: "spices", isFeatured: false, isNew: true, keywords: "سانوج حبة سوداء توابل" },
+            { id: 27, name: "ورق السدر", price: 110.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/e0/2a/c1/e02ac1ba5a1b6502a37cfcc2699b19c5.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "ورق سدر أعشاب" },
+            { id: 28, name: "القرنفل", price: 160.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/7f/68/62/7f6862d881d344eaa2436d0cc2168644.jpg", category: "spices", isFeatured: false, isNew: true, keywords: "قرنفل توابل" },
+            { id: 29, name: "بذور الكتان", price: 70.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/17/d6/22/17d6221aa40200e1f3fd950e5160fb3d.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "بذور كتان أعشاب" },
+            { id: 30, name: "بذور الشيا", price: 180.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/a5/fd/45/a5fd45a39b732c561d24d0686f9154d2.jpg", category: "herbs", isFeatured: false, isNew: true, keywords: "بذور شيا" },
+            { id: 31, name: "الزنجبيل مطحون", price: 120.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/8d/0e/6c/8d0e6c78c83022d1ce388b654860eec8.jpg", category: "spices", isFeatured: false, isNew: true, keywords: "زنجبيل مطحون توابل" },
+            { id: 32, name: "دقيق الشعير", price: 25.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/f7/c1/be/f7c1bee3439410a56188737a25a1215d.jpg", category: "food", isFeatured: false, isNew: true, keywords: "دقيق شعير مواد غذائية" },
+            { id: 33, name: "دقيق الحمص", price: 35.00, desc: "1 كجم", image: "https://static.webteb.net/images/content/tbl_articles_article_28705_3505b7e9a55-11a2-4b4a-a489-34c9edaa8f62.jpg", category: "food", isFeatured: false, isNew: true, keywords: "دقيق حمص مواد غذائية" },
+            { id: 34, name: "الخل الطبيعي (تفاح)", price: 25.00, desc: "1 لتر", image: "https://i.pinimg.com/736x/fd/ef/b3/fdefb36c48828597847c05cd0f7ca092.jpg", category: "food", isFeatured: false, isNew: true, keywords: "خل تفاح طبيعي" },
+            { id: 35, name: "الزنجلان", price: 80.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/c9/7f/6c/c97f6c557e815f8f1cf3e241130e2c1f.jpg", category: "food", isFeatured: false, isNew: true, keywords: "زنجلان سمسم مواد غذائية" },
+            { id: 36, name: "الكينوا", price: 90.00, desc: "1 كجم", image: "https://i.pinimg.com/1200x/5a/45/75/5a45754da9cc4967d8793b05003dc646.jpg", category: "food", isFeatured: false, isNew: true, keywords: "كينوا مواد غذائية" },
+             
+            { id: 38, name: "السكر البني الطبيعي", price: 35.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/48/67/ac/4867aca450eb836d2b1517765fa8e67c.jpg", category: "food", isFeatured: false, isNew: true, keywords: "سكر بني طبيعي" },
+            { id: 39, name: "الطين المغربي (الغاسول)", price: 45.00, desc: "1 كجم", image: "https://i.pinimg.com/736x/84/be/bd/84bebdcf38fca6ef0cf5ecddeefbdd27.jpg", category: "beauty", isFeatured: false, isNew: true, keywords: "طين مغربي غاسول تجميل" },
+            { id: 40, name: "ماء الورد البلدي", price: 20.00, desc: "250مل", image: "https://i.pinimg.com/736x/8f/e3/9f/8fe39f36bd72f0d03062668df1433c6e.jpg", category: "beauty", isFeatured: false, isNew: true, keywords: "ماء ورد بلدي تجميل" },
+            { id: 41, name: "صابون الطاووس", price: 21.00, desc: "وحدة", image: "https://cdn.shopify.com/s/files/1/0235/6687/6752/products/sabon-altaoeos-4x125g-taous-soap-4x-125g-121120_1200x1200.jpg?v=1641286720", category: "beauty", isFeatured: false, isNew: true, keywords: "صابون طاووس تجميل" },
+            { id: 42, name: "زيت التين الشوكي", price: 160.00, desc: "30مل", image: "https://i.pinimg.com/1200x/b8/63/be/b863be452ad5fb062f26e060eacaaa29.jpg", category: "beauty", isFeatured: false, isNew: true, keywords: "زيت تين شوكي تجميل" },
+            { id: 43, name: "زيت الخزامى", price: 60.00, desc: "100مل", image: "https://i.pinimg.com/1200x/db/2e/e4/db2ee454aa820346b3e0676a85c499bd.jpg", category: "beauty", isFeatured: false, isNew: true, keywords: "زيت خزامى تجميل" },
+            { id: 44, name: "زيت الخروع", price: 40.00, desc: "100مل", image: "https://i.pinimg.com/736x/10/bd/cf/10bdcf5a033e41b20cbf75525422d270.jpg", category: "beauty", isFeatured: false, isNew: true, keywords: "زيت خروع تجميل" },
+            { id: 45, name: "زيت اللوز الحلو", price: 55.00, desc: "100مل", image: "https://i.pinimg.com/1200x/cb/4e/31/cb4e31cebdf012a6485cb93eb6fc70bf.jpg", category: "beauty", isFeatured: false, isNew: true, keywords: "زيت لوز حلو تجميل" },
+            { id: 46, name: "حجر الشب", price: 15.00, desc: "وحدة", image: "https://i.pinimg.com/1200x/65/b9/50/65b9508a1ac9b5eaf5e64dbdb85bf463.jpg", category: "beauty", isFeatured: false, isNew: true, keywords: "حجر شب تجميل" },
+            { id: 47, name: "الحناء البلدية", price: 40.00, desc: "1 كجم", image: "https://www.henna-almadinah.com/wp-content/uploads/2024/01/%D8%AD%D9%86%D8%A7%D8%A1-%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%86%D8%A9-%D8%A7%D9%84%D8%B9%D8%B6%D9%88%D9%8A-600x561.png", category: "beauty", isFeatured: false, isNew: true, keywords: "حناء بلدية تجميل" },
+            { id: 48, name: "المسك الطبيعي", price: 25.00, desc: "وحدة صغيرة", image: "https://i.pinimg.com/736x/60/69/70/60697027f09c6ca169730ade38bece17.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "مسك طبيعي تقليدي" },
+            { id: 49, name: "العود المغربي", price: 45.00, desc: "10غ", image: "https://i.pinimg.com/1200x/bf/8e/0b/bf8e0bd1a059f40d57ffaf11bc1f51db.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "عود مغربي تقليدي" },
+            { id: 50, name: "العنبر", price: 35.00, desc: "10غ", image: "https://i.pinimg.com/1200x/2c/01/70/2c017094591b2a0a87eda675789c47ba.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "عنبر تقليدي" },
+            { id: 51, name: "السواك البلدي", price: 10.00, desc: "عود", image: "https://i.pinimg.com/736x/9a/45/29/9a452988403b857bb8db82a34fa0a8c6.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "سواك بلدي تقليدي" },
+            { id: 52, name: "بخور مغربي", price: 30.00, desc: "100غ", image: "https://i.pinimg.com/736x/f0/53/73/f0537317200143e2da9aca028ad2c54f.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "بخور مغربي تقليدي" },
+            { id: 53, name: "الفحم النباتي ", price: 40.00, desc: "100غ", image: "https://i.pinimg.com/736x/8b/42/70/8b427031aaaf70514a6ec72ea0c035fe.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "فحم نباتي تجميلي" }
+        ];
+        
+        let cart = [];
+        let currentSlideIndex = 0;
+        let sliderInterval;
+        
+        const categoryContainers = {
+            honey: 'honey-products',
+            herbs: 'herbs-products',
+            spices: 'spices-products',
+            oils_nuts: 'oils_nuts-products',
+            legumes: 'legumes-products',
+            food: 'food-products',
+            beauty: 'beauty-products',
+            traditional: 'traditional-products',
+            special: 'special-products'
+        };
+
+        const sliderImages = [
+            "https://i.pinimg.com/1200x/a4/be/bf/a4bebfd4b5f7d19992eb7abf92118619.jpg", 
+            "https://i.pinimg.com/1200x/69/17/40/691740705ea58c7a500409c441336558.jpg",   
+            "https://i.pinimg.com/1200x/dd/63/04/dd6304c899064ff1c8ced47bacce2676.jpg",
+            "https://i.pinimg.com/1200x/f6/ae/5f/f6ae5ffe2f7ef1d195bf98d67ecaae40.jpg" 
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            startSlider();
+            updateCartCount();
+            setupMobileMenu();
+        });
+
+        function setupMobileMenu() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMenuButton = document.getElementById('close-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+            const mobileCategoriesMenu = document.getElementById('mobile-categories-menu');
+            const mobileCategoriesArrow = document.getElementById('mobile-categories-arrow');
+
+            const openMenu = () => mobileMenu.classList.remove('translate-x-full');
+            const closeMenu = () => {
+                mobileMenu.classList.add('translate-x-full');
+                // Reset the state of the categories dropdown when the menu is closed
+                if (mobileCategoriesMenu && mobileCategoriesArrow) {
+                    mobileCategoriesMenu.classList.add('hidden');
+                    mobileCategoriesArrow.classList.remove('rotate-180');
+                }
+            };
+
+            // Event listeners for opening and closing the main menu
+            mobileMenuButton.addEventListener('click', openMenu);
+            closeMenuButton.addEventListener('click', closeMenu);
+
+            // Event listener for the categories dropdown toggle
+            mobileCategoriesButton.addEventListener('click', (event) => {
+                // Prevent this click from being treated as a regular menu link click
+                event.stopPropagation(); 
+                mobileCategoriesMenu.classList.toggle('hidden');
+                mobileCategoriesArrow.classList.toggle('rotate-180');
+            });
+
+            // Add a single event listener to the nav container for all links
+            const navContainer = mobileMenu.querySelector('nav');
+            navContainer.addEventListener('click', (event) => {
+                // Check if the clicked element is an anchor tag and not the toggle button
+                if (event.target.tagName === 'A' && event.target.closest('button') === null) {
+                    // Close the menu after a short delay to allow navigation
+                    setTimeout(closeMenu, 150);
+                }
+            });
+        }
+
+        // ========================
+        // SLIDER LOGIC
+        // ========================
+        function startSlider() {
+            const container = document.getElementById('slides-container');
+            if (!container) return;
+            sliderImages.forEach((src, index) => {
+                const div = document.createElement('div');
+                div.className = `slide ${index === 0 ? 'active' : ''}`;
+                div.id = `slide-${index}`;
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `عرض BioFA ${index + 1}`;
+                div.appendChild(img);
+                container.appendChild(div);
+            });
+            sliderInterval = setInterval(nextSlide, 5000);
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) slide.classList.add('active');
+            });
+        }
+        
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % sliderImages.length;
+            showSlide(currentSlideIndex);
+        }
+
+        function changeSlide(n) {
+            const totalSlides = sliderImages.length;
+            currentSlideIndex = (currentSlideIndex + n + totalSlides) % totalSlides;
+            showSlide(currentSlideIndex);
+            clearInterval(sliderInterval);
+            sliderInterval = setInterval(nextSlide, 5000);
+        }
+
+        // ========================
+        // PRODUCT RENDERING & FILTERING
+        // ========================
+        function renderProducts(filteredProducts = ALL_PRODUCTS) {
+            const featured = filteredProducts.filter(p => p.isFeatured);
+            const featuredContainer = document.getElementById('best-sellers');
+            if(featuredContainer) featuredContainer.innerHTML = featured.map(createProductCard).join('');
+
+            const totalCategoryProducts = {};
+            Object.keys(categoryContainers).forEach(category => {
+                const categoryProducts = filteredProducts.filter(p => p.category === category);
+                const containerId = categoryContainers[category];
+                const container = document.getElementById(containerId);
+                if(container) container.innerHTML = categoryProducts.map(createProductCard).join('');
+                totalCategoryProducts[category] = categoryProducts.length;
+            });
+
+            let totalResults = 0;
+            const categorySections = document.querySelectorAll('.category-section');
+            categorySections.forEach(section => {
+                const categoryId = section.id.replace('-section', '');
+                if (totalCategoryProducts[categoryId] > 0) {
+                    section.style.display = 'block';
+                    totalResults += totalCategoryProducts[categoryId];
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+
+            const searchTerm = document.getElementById('search-input').value.trim();
+            const resultsMessage = document.getElementById('search-results-message');
+            const searchTermDisplay = document.getElementById('search-term-display');
+            const featuredSection = document.getElementById('featured');
+
+            if (searchTerm.length > 0) {
+                if (totalResults === 0 && featured.length === 0) {
+                    searchTermDisplay.textContent = searchTerm;
+                    resultsMessage.classList.remove('hidden');
+                } else {
+                    resultsMessage.classList.add('hidden');
+                }
+                if(featuredSection) featuredSection.style.display = featured.length > 0 ? 'block' : 'none';
+            } else {
+                if(resultsMessage) resultsMessage.classList.add('hidden');
+                if(featuredSection) featuredSection.style.display = 'block';
+                categorySections.forEach(section => section.style.display = 'block');
+            }
+        }
+        
+        function filterProducts(searchTerm) {
+            const query = searchTerm.trim().toLowerCase();
+            const filtered = query ? ALL_PRODUCTS.filter(p => 
+                p.name.toLowerCase().includes(query) ||
+                p.desc.toLowerCase().includes(query) ||
+                p.keywords.toLowerCase().includes(query)
+            ) : ALL_PRODUCTS;
+            renderProducts(filtered);
+            if(query) scrollToTop(document.getElementById('categories'));
+        }
+
+        function scrollToTop(element) {
+             const headerOffset = 100;
+             const elementPosition = element.getBoundingClientRect().top;
+             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+             window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        }
+        
+        function scrollToCategory(category) {
+            const element = document.getElementById(`${category}-section`);
+            if (element) scrollToTop(element);
+        }
+
+        function createProductCard(product) {
+            return `
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 p-4 flex flex-col items-center text-center">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/150x150/ffffff/d1d5db?text=صورة+غير+متوفرة'" class="w-full h-40 object-cover rounded-lg mb-4 bg-gray-50">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-1">${product.name}</h3>
+                    <p class="text-xs md:text-sm text-gray-500 mb-3 flex-grow">${product.desc}</p>
+                    <p class="text-xl md:text-2xl font-extrabold text-primary-green mb-4">${product.price.toFixed(2)} د.م.</p>
+                    <button onclick="addToCart(${product.id})" class="w-full bg-secondary-gold text-white py-2 rounded-full font-semibold hover:bg-yellow-700 transition duration-300 shadow-md text-sm md:text-base">
+                        أضف للسلة
+                    </button>
+                </div>
+            `;
+        }
+
+        // ========================
+        // CART LOGIC
+        // ========================
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function addToCart(productId) {
+            const product = ALL_PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartCount();
+            showToast('تمت إضافة المنتج للسلة بنجاح!');
+        }
+
+        function updateItemQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartFooterStep1 = document.getElementById('cart-footer-step1');
+            if (!cartItemsContainer || !cartFooterStep1) return;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">سلتك فارغة حالياً.</p>';
+                cartFooterStep1.innerHTML = '';
+                return;
+            }
+            
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="flex items-center justify-between py-3 border-b last:border-b-0">
+                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-md object-cover bg-gray-50">
+                        <div>
+                            <p class="font-bold text-gray-800">${item.name}</p>
+                            <p class="text-sm text-gray-500">${item.price.toFixed(2)} د.م. للوحدة</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                        <button onclick="updateItemQuantity(${item.id}, 1)" class="w-7 h-7 bg-gray-100 rounded-full text-gray-700 hover:bg-gray-200 transition">+</button>
+                        <span class="font-semibold text-gray-800">${item.quantity}</span>
+                        <button onclick="updateItemQuantity(${item.id}, -1)" class="w-7 h-7 bg-gray-100 rounded-full text-gray-700 hover:bg-gray-200 transition">-</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            
+            cartFooterStep1.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-lg font-semibold text-gray-600">المجموع الإجمالي:</p>
+                    <p class="text-2xl font-bold text-primary-green">${totalPrice.toFixed(2)} د.م.</p>
+                </div>
+                <button onclick="showCartStep(2)" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    متابعة لإدخال المعلومات
+                </button>
+            `;
+        }
+        
+        function sendOrderViaWhatsApp() {
+            const form = document.getElementById('customer-info-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const city = document.getElementById('customer-city').value;
+            const address = document.getElementById('customer-address').value;
+
+            let message = "🎉 *طلب جديد من متجر BioFA* 🎉\n\n";
+            message += "---------------\n*معلومات الزبون:*\n";
+            message += `*الاسم:* ${name}\n*الهاتف:* ${phone}\n*المدينة:* ${city}\n*العنوان:* ${address}\n\n`;
+            message += "*المنتجات المطلوبة:*\n";
+            cart.forEach(item => {
+                message += `- ${item.name} (الكمية: ${item.quantity}) = ${(item.price * item.quantity).toFixed(2)} د.م.\n`;
+            });
+            const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            message += `\n*المجموع الإجمالي: ${totalPrice.toFixed(2)} د.م.*\n---------------\n\n`;
+            message += "الرجاء تأكيد الطلبية وشكراً.";
+            
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function showCartStep(step) {
+            const step1 = document.getElementById('cart-step-1');
+            const step2 = document.getElementById('cart-step-2');
+            const title = document.getElementById('cart-modal-title');
+
+            if (step === 1) {
+                step1.classList.remove('hidden');
+                step2.classList.add('hidden');
+                title.textContent = 'سلة التسوق';
+            } else if (step === 2) {
+                if(cart.length === 0) {
+                    showToast('الرجاء إضافة منتجات للسلة أولاً.');
+                    return;
+                }
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                title.textContent = 'معلومات التوصيل';
+            }
+        }
+
+        function showCartModal() {
+            const modal = document.getElementById('cart-modal');
+            const modalContent = modal.querySelector('div:first-child');
+            renderCartItems();
+            showCartStep(1);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function hideCartModal() {
+            const modal = document.getElementById('cart-modal');
+            const modalContent = modal.querySelector('div:first-child');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // ========================
+        // UTILITIES & CONTACT
+        // ========================
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            showToast('شكراً لك! تم استلام رسالتك بنجاح. سنتواصل معك قريباً.');
+            document.getElementById('contact-form').reset();
+        }
+    </script>
+</body>
+</html>
+
