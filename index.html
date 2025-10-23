@@ -121,7 +121,12 @@
                             </svg>
                         </button>
                         <div id="categories-menu" class="dropdown-menu absolute right-0 w-56 mt-2 bg-white rounded-lg shadow-xl z-30 border border-gray-100 origin-top-right">
-                            <a href="#honey-section" onclick="scrollToCategory('honey')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition rounded-t-lg">العسل الطبيعي</a>
+                            <!-- New Categories Added -->
+                            <a href="#vegetables-section" onclick="scrollToCategory('vegetables')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition rounded-t-lg">الخضر</a>
+                            <a href="#fruits-section" onclick="scrollToCategory('fruits')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">الفواكه</a>
+                            <a href="#dairy-section" onclick="scrollToCategory('dairy')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">مشتقات الحليب</a>
+                            <!-- Existing Categories -->
+                            <a href="#honey-section" onclick="scrollToCategory('honey')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">العسل الطبيعي</a>
                             <a href="#herbs-section" onclick="scrollToCategory('herbs')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">الأعشاب والنباتات</a>
                             <a href="#spices-section" onclick="scrollToCategory('spices')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">التوابل والبهارات</a>
                             <a href="#oils_nuts-section" onclick="scrollToCategory('oils_nuts')" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-primary-green transition">الزيوت والمكسرات</a>
@@ -186,6 +191,11 @@
                     </svg>
                 </button>
                 <div id="mobile-categories-menu" class="hidden mt-4 space-y-5 text-lg font-medium text-gray-500">
+                    <!-- New Categories Added -->
+                    <a href="#vegetables-section" class="mobile-menu-link block">الخضر</a>
+                    <a href="#fruits-section"     class="mobile-menu-link block">الفواكه</a>
+                    <a href="#dairy-section"      class="mobile-menu-link block">مشتقات الحليب</a>
+                    <!-- Existing Categories -->
                     <a href="#honey-section"    class="mobile-menu-link block">العسل الطبيعي</a>
                     <a href="#herbs-section"    class="mobile-menu-link block">الأعشاب والنباتات</a>
                     <a href="#spices-section"   class="mobile-menu-link block">التوابل والبهارات</a>
@@ -232,7 +242,23 @@
                 لا توجد نتائج مطابقة لـ: <span id="search-term-display"></span>
             </div>
 
-            <!-- Individual Category Sections -->
+            <!-- New Category Sections Added -->
+            <div id="vegetables-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">الخضر</h3>
+                <div id="vegetables-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="fruits-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">الفواكه</h3>
+                <div id="fruits-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+
+            <div id="dairy-section" class="mb-16 pt-8 category-section">
+                <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">مشتقات الحليب</h3>
+                <div id="dairy-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+            
+            <!-- Existing Category Sections -->
             <div id="honey-section" class="mb-16 pt-8 category-section">
                 <h3 class="text-2xl font-bold text-primary-green mb-6 border-r-4 border-secondary-gold pr-3">العسل الطبيعي</h3>
                 <div id="honey-products" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
@@ -493,7 +519,58 @@
             { id: 50, name: "العنبر", price: 35.00, desc: "10غ", image: "https://i.pinimg.com/1200x/2c/01/70/2c017094591b2a0a87eda675789c47ba.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "عنبر تقليدي" },
             { id: 51, name: "السواك البلدي", price: 10.00, desc: "عود", image: "https://i.pinimg.com/736x/9a/45/29/9a452988403b857bb8db82a34fa0a8c6.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "سواك بلدي تقليدي" },
             { id: 52, name: "بخور مغربي", price: 30.00, desc: "100غ", image: "https://i.pinimg.com/736x/f0/53/73/f0537317200143e2da9aca028ad2c54f.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "بخور مغربي تقليدي" },
-            { id: 53, name: "الفحم النباتي ", price: 40.00, desc: "100غ", image: "https://i.pinimg.com/736x/8b/42/70/8b427031aaaf70514a6ec72ea0c035fe.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "فحم نباتي تجميلي" }
+            { id: 53, name: "الفحم النباتي ", price: 40.00, desc: "100غ", image: "https://i.pinimg.com/736x/8b/42/70/8b427031aaaf70514a6ec72ea0c035fe.jpg", category: "traditional", isFeatured: false, isNew: true, keywords: "فحم نباتي تجميلي" },
+
+            // <!-- منتجات الخضر المضافة -->
+            { id: 54, name: "طماطم", price: 3.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/2f/2c/35/2f2c357a184c04b735a5613db800eda1.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "طماطم خضر" },
+            { id: 55, name: "بطاطس", price: 3.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/c0/bd/c1/c0bdc1ec2616edc069c1952e5120bc85.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "بطاطس خضر" },
+            { id: 56, name: "بصل", price: 3.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/2d/72/5b/2d725bd3f68fc902b13d71c23b316e6f.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "بصل خضر" },
+            { id: 57, name: "فلفل أخضر", price: 8.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/29/38/74/293874fa454e4559c9940ae6df386e5b.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "فلفل أخضر خضر" },
+            { id: 58, name: "فلفل أحمر", price: 12.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/5e/bf/71/5ebf71e91c3b4a33580864eb6e7d5adc.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "فلفل أحمر خضر" },
+            { id: 59, name: "جزر", price: 4.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/96/9f/3c/969f3ca426bb40444e8e09b9e7beb5d4.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "جزر خضر" },
+            { id: 60, name: "الكورجيت", price: 4.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/e4/6d/78/e46d78baa13b4ea64b4d1be324a54c4f.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "كوسة قرع أخضر خضر" },
+            { id: 61, name: "باذنجان", price: 3.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/41/2d/0e/412d0e9dbb466eb88feedb169a2a3382.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "باذنجان خضر" },
+            { id: 62, name: "خيار", price: 5.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/50/a5/f7/50a5f79f7e17484fef4f2294c3764166.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "خيار خضر" },
+            { id: 63, name: "قرع", price: 4.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/dd/83/30/dd8330d1343abe05f1294cec5c0eb2dd.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "قرع خضر" },
+            { id: 64, name: "خس", price: 4.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/1a/3d/72/1a3d727f73e22e7465a6b7e76f22008d.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "خس خضر" },
+            { id: 65, name: "سبانخ", price: 6.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/1b/28/fc/1b28fc2bd285925d482667e8986461b5.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "سبانخ خضر" },
+            { id: 66, name: "فاصوليا خضراء", price: 12.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/e9/97/64/e99764ced2f3048651afdbf7ed2bd15e.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "فاصوليا خضراء خضر" },
+            { id: 67, name: "كرنب", price: 4.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/76/5d/5c/765d5c0801d9c0eff2b46d9011d081db.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "كرنب ملفوف خضر" },
+            { id: 68, name: "شفلور", price: 5.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/85/96/73/85967369fa16e5d32ac86ce1c328d631.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "قرنبيط شيفلور خضر" },
+            { id: 69, name: "ثوم", price: 15.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/ef/3e/34/ef3e3429fc3957b49040d9bf5f92d4e2.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "ثوم خضر" },
+            { id: 70, name: "فول", price: 6.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/e0/a0/5f/e0a05f4f1b94b3a0abc133a58782cc08.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "فول خضر" },
+            { id: 71, name: "لوبيا خضراء", price: 10.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/21/ce/02/21ce02649cb794ad3866e548a0ee8900.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "لوبيا خضراء خضر" },
+            { id: 72, name: "بصل أخضر", price: 5.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/a8/ed/8c/a8ed8c16ed4a23ecdab46581872ee5e9.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "بصل أخضر خضر" },
+            
+            { id: 74, name: "قزبر ومعدنوس", price: 1.00, desc: "للربطة", image: "https://i.pinimg.com/1200x/e3/d1/9f/e3d19fc97a6dc916be7edaab3dd93b84.jpg", category: "vegetables", isFeatured: false, isNew: true, keywords: "قزبر معدنوس خضر أعشاب" },
+
+            // <!-- منتجات الفواكه المضافة -->
+            { id: 75, name: "تفاح", price: 10.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/9d/9e/d1/9d9ed1dfae5a839aea7db4f044e92aa4.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "تفاح فواكه" },
+            { id: 76, name: "برتقال", price: 6.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/f0/da/ec/f0daecdfaf29d35aaa237468debfe680.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "برتقال فواكه" },
+            { id: 77, name: "ليمون", price: 7.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/f5/8a/fb/f58afbd4b1f9fb7db1214099cf73c30d.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "ليمون حامض فواكه" },
+            { id: 78, name: "موز", price: 12.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/42/d7/2a/42d72a0bf2973fcf5d3bc5f5556e882a.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "موز فواكه" },
+            { id: 79, name: "عنب", price: 12.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/95/8b/23/958b232c48e9649b8bcba7b02ada834a.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "عنب فواكه" },
+            { id: 80, name: "رمان", price: 10.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/22/81/bc/2281bca9ddc0ff0f03b04bc6fbab0e0d.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "رمان فواكه" },
+            { id: 81, name: "بطيخ", price: 5.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/5f/4d/7f/5f4d7f93c75b48e9d7d25e073e17980b.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "بطيخ أحمر دلاح فواكه" },
+            { id: 82, name: "منون", price: 6.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/96/39/df/9639df97c976f99c180c0352104f322c.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "شمام بطيخ أصفر فواكه" },
+            { id: 83, name: "خوخ", price: 10.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/1f/ce/54/1fce544ad10a5a6faf190612cd99f74c.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "خوخ فواكه" },
+            { id: 84, name: "مشمش", price: 10.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/ac/f6/fb/acf6fb16d7caee6f8a00ae6e6bd0ecc3.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "مشمش فواكه" },
+            { id: 85, name: "فراولة", price: 15.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/8f/f4/f0/8ff4f0b8413c8e3ef42a200f43492a77.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "فراولة فريز فواكه" },
+            { id: 86, name: "كرز", price: 25.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/ad/74/03/ad7403da8764d2d520245e645b84a30b.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "كرز حب الملوك فواكه" },
+            { id: 87, name: "إجاص", price: 12.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/e6/5c/08/e65c08b54fb2d575dc12a01e031119dc.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "إجاص فواكه" },
+            { id: 88, name: "أفوكادو", price: 25.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/5d/85/ac/5d85acd2ddc023a0c864e4fae05b80e3.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "أفوكادو فواكه" },
+            { id: 89, name: "تين", price: 10.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/d6/e4/cf/d6e4cf0043a5e166b43cb59651181441.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "تين فواكه" },
+           
+            { id: 91, name: "سفرجل", price: 15.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/06/d4/ee/06d4ee540f06f14eafeb2d3dbb99d3b7.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "جوافة فواكه" },
+            { id: 92, name: "مانغو", price: 20.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/ae/91/f5/ae91f576a76f5432a84927b708a8fec6.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "مانغو فواكه" },
+            { id: 93, name: "اناناص", price: 18.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/da/f1/6f/daf16f4557365c1b9de99e840a7a897d.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "باباي فواكه" },
+            { id: 94, name: "كيوي", price: 16.00, desc: "منتج طازج", image: "https://i.pinimg.com/1200x/fd/5a/32/fd5a32a5c108571648dfd2125bf08643.jpg", category: "fruits", isFeatured: false, isNew: true, keywords: "كيوي فواكه" },
+
+            // <!-- منتجات مشتقات الحليب المضافة -->
+            { id: 95, name: "طبيعي حليب", price: 9.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/bf/e2/1e/bfe21e111cf9a119be9e11afc4e52b21.jpg", category: "dairy", isFeatured: false, isNew: true, keywords: "حليب مشتقات الحليب" },
+            { id: 96, name: "لبن", price: 10.00, desc: "منتج طازج", image: "https://i.pinimg.com/736x/bf/e2/1e/bfe21e111cf9a119be9e11afc4e52b21.jpg", category: "dairy", isFeatured: false, isNew: true, keywords: "لبن مشتقات الحليب" },
+            { id: 97, name: "زبدة بلدية", price: 80.00, desc: "للكيلو", image: "https://i.pinimg.com/736x/d4/8b/8c/d48b8c7eb0dd2d8e623d51fadf4c3a0f.jpg", category: "dairy", isFeatured: false, isNew: true, keywords: "زبدة بلدية مشتقات الحليب" },
+            { id: 98, name: "سمن حار", price: 90.00, desc: "منتج بلدي", image: "https://i.pinimg.com/736x/8f/91/c7/8f91c72b2bfd379179c8a74a45cccc8a.jpg", category: "dairy", isFeatured: false, isNew: true, keywords: "سمن حار مشتقات الحليب" }
         ];
         
         let cart = [];
@@ -501,6 +578,11 @@
         let sliderInterval;
         
         const categoryContainers = {
+            // New Categories
+            vegetables: 'vegetables-products',
+            fruits: 'fruits-products',
+            dairy: 'dairy-products',
+            // Existing Categories
             honey: 'honey-products',
             herbs: 'herbs-products',
             spices: 'spices-products',
@@ -653,7 +735,23 @@
             } else {
                 if(resultsMessage) resultsMessage.classList.add('hidden');
                 if(featuredSection) featuredSection.style.display = 'block';
-                categorySections.forEach(section => section.style.display = 'block');
+                // Show all sections if search is empty, even if they have 0 products (renderProducts will hide them again if needed)
+                categorySections.forEach(section => {
+                    const categoryId = section.id.replace('-section', '');
+                    if (totalCategoryProducts[categoryId] > 0) {
+                        section.style.display = 'block';
+                    } else {
+                        // Keep sections with 0 products hidden
+                        section.style.display = 'none';
+                    }
+                });
+                // Re-show existing categories that might have been hidden by a search
+                Object.keys(categoryContainers).forEach(category => {
+                    const section = document.getElementById(`${category}-section`);
+                    if(section && totalCategoryProducts[category] > 0) {
+                        section.style.display = 'block';
+                    }
+                });
             }
         }
         
@@ -661,8 +759,8 @@
             const query = searchTerm.trim().toLowerCase();
             const filtered = query ? ALL_PRODUCTS.filter(p => 
                 p.name.toLowerCase().includes(query) ||
-                p.desc.toLowerCase().includes(query) ||
-                p.keywords.toLowerCase().includes(query)
+                (p.desc && p.desc.toLowerCase().includes(query)) ||
+                (p.keywords && p.keywords.toLowerCase().includes(query))
             ) : ALL_PRODUCTS;
             renderProducts(filtered);
             if(query) scrollToTop(document.getElementById('categories'));
@@ -860,4 +958,3 @@
     </script>
 </body>
 </html>
-
